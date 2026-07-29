@@ -50,7 +50,7 @@ module Asy_RAM(clk,rst,w_r,wdata_in,rdata_out,addr);
   always @(posedge clk)begin
     if (rst)
       for (i=0;i<DEPTH;i=i+1)begin
-        mem[i]<={DEPTH{1'b0}};
+        mem[i]<={WIDTH{1'b0}};
       end
     else if 
       (w_r==1)begin
