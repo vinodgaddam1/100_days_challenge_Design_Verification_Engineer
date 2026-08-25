@@ -1,0 +1,364 @@
+/********************************************************************************
+                               Verilog Port declaration
+*********************************************************************************
+
+1.Basic module---ANSI Explicite
+
+module module_name (
+    input  wire a,
+    input  wire b,
+    output wire y
+);
+
+    // declarations
+    // logic
+
+endmodule
+
+
+2. Basic module — ANSI implicit wire
+
+module module_name (
+    input  a,
+    input  b,
+    output y
+);
+
+    // logic
+
+endmodule
+
+3. Non-ANSI / explicit declaration
+module module_name (a, b, y);
+
+    input  wire a;
+    input  wire b;
+    output wire y;
+
+    // declarations
+    // logic
+
+endmodule
+
+
+4. Non-ANSI / implicit ports
+
+module module_name (a, b, y);
+
+    // port declarations may be omitted
+    // implicit nets are created by Verilog rules
+
+endmodule
+
+
+
+5. Module with parameters
+
+module module_name #(
+    parameter WIDTH = 8,
+    parameter DEPTH = 16
+)(
+    input  wire             clk,
+    input  wire [WIDTH-1:0] data_in,
+    output wire [WIDTH-1:0] data_out
+);
+
+    // declarations
+    // logic
+
+endmodule
+
+
+6. Module with localparam
+
+module module_name #(
+    parameter WIDTH = 8
+)(
+    input  wire clk,
+    output wire y
+);
+
+    localparam MAX_VALUE = (1 << WIDTH) - 1;
+
+    // logic
+
+endmodule
+
+7. Module with parameter + localparam + ports
+
+module module_name #(
+    parameter WIDTH = 8,
+    parameter DEPTH = 16
+)(
+    input  wire clk,
+    input  wire rst,
+    input  wire [WIDTH-1:0] data_in,
+    output wire [WIDTH-1:0] data_out
+);
+
+    localparam ADDR_WIDTH = $clog2(DEPTH);
+
+    // declarations
+
+endmodule
+
+
+8. Module with wire declarations
+
+module module_name (
+    input  wire a,
+    input  wire b,
+    output wire y
+);
+
+    wire w1;
+    wire w2;
+    wire [7:0] data;
+
+    assign w1 = a & b;
+    assign y  = w1;
+
+endmodule
+
+
+9. Module with reg declarations
+
+module module_name (
+    input  wire clk,
+    input  wire a,
+    output reg  y
+);
+
+    reg [7:0] count;
+
+    always @(posedge clk) begin
+        count <= count + 1;
+        y <= a;
+    end
+
+endmodule
+
+10. Module with integer
+
+module module_name (
+    input  wire clk,
+    output reg y
+);
+
+    integer i;
+
+    always @(posedge clk) begin
+        for (i = 0; i < 8; i = i + 1)
+            y <= 1'b1;
+    end
+
+endmodule
+
+11. Module with genvar
+
+module module_name #(
+    parameter WIDTH = 8
+)(
+    input  wire [WIDTH-1:0] a,
+    input  wire [WIDTH-1:0] b,
+    output wire [WIDTH-1:0] y
+);
+
+    genvar i;
+
+    generate
+        for (i = 0; i < WIDTH; i = i + 1) begin : GEN
+            assign y[i] = a[i] & b[i];
+        end
+    endgenerate
+
+endmodule
+
+
+12. Module with function
+
+module module_name (
+    input  wire [7:0] a,
+    input  wire [7:0] b,
+    output wire [7:0] y
+);
+
+    function [7:0] add_function;
+        input [7:0] x;
+        input [7:0] z;
+
+        begin
+            add_function = x + z;
+        end
+    endfunction
+
+    assign y = add_function(a, b);
+
+endmodule
+
+
+
+13. Module with task
+
+module module_name (
+    input  wire a,
+    input  wire b,
+    output reg  y
+);
+
+    task and_task;
+        input  x;
+        input  z;
+        output result;
+
+        begin
+            result = x & z;
+        end
+    endtask
+
+    always @(*) begin
+        and_task(a, b, y);
+    end
+
+endmodule
+
+14. Module with always block
+
+
+module module_name (
+    input  wire a,
+    input  wire b,
+    output reg y
+);
+
+    always @(*) begin
+        if (a)
+            y = b;
+        else
+            y = 1'b0;
+    end
+
+endmodule
+
+
+15. Module with initial block
+
+module module_name;
+
+    reg a;
+    reg b;
+
+    initial begin
+        a = 1'b0;
+        b = 1'b1;
+    end
+
+endmodule
+
+
+16. Module with always + function + parameter
+
+module module_name #(
+    parameter WIDTH = 8
+)(
+    input  wire [WIDTH-1:0] a,
+    input  wire [WIDTH-1:0] b,
+    output reg  [WIDTH-1:0] y
+);
+
+    function [WIDTH-1:0] calculate;
+        input [WIDTH-1:0] x;
+        input [WIDTH-1:0] z;
+
+        begin
+            calculate = x + z;
+        end
+    endfunction
+
+    always @(*) begin
+        y = calculate(a, b);
+    end
+
+endmodule
+
+
+17. Module containing another module — structural
+
+
+module module_name (
+    input  wire a,
+    input  wire b,
+    output wire y
+);
+
+    wire w1;
+
+    and_gate U1 (
+        .a(a),
+        .b(b),
+        .y(w1)
+    );
+
+    assign y = w1;
+
+endmodule
+
+
+18. Structural module — positional connection
+
+module module_name (
+    input  wire a,
+    input  wire b,
+    output wire y
+);
+
+    and_gate U1 (
+        a,
+        b,
+        y
+    );
+
+endmodule
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
