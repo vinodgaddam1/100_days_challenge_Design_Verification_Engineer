@@ -230,7 +230,130 @@ $display("XOR=%b",a^b);
 end
 endfunction
 endmodule
-*/
+
+////////////////////////////////////////////////////////////////////////////
+                          6.Shift  Operator's
+///////////////////////////////////////////////////////////////////////////
+
+module top;
+initial begin
+$display("-------------------------------------------------------------------");
+$display("-------------------Shift Operator's------------------------------");
+shift_operators(5'b11001,5'b00001);//check here only normal sfift's
+arith_operators(-8,2);//check here only normal sfift's
+end
+function void shift_operators(logic [4:0]a,logic [4:0]b);begin
+$display("Left shift operator=%b",a<<b);
+$display("Right shift operator=%b",a>>b);
+end
+endfunction
+function void arith_operators(logic signed [4:0]a,logic signed[4:0]b);begin
+$display("Left arithmetic shift operator=%b",a<<<b);
+$display("Right arithmetic shift operator=%b",a>>>b);
+end
+endfunction
+endmodule
+
+
+////////////////////////////////////////////////////////////////////////////
+                          7.Assignment Operator's
+///////////////////////////////////////////////////////////////////////////
+
+module top;
+initial begin
+$display("-------------------------------------------------------------------");
+$display("-------------------Assignment Operator's------------------------------");
+
+assignment (4,2);
+end
+function void assignment(logic signed[4:0]a,logic signed[8:0]b);begin
+a=b;
+$display("assignment %0d",a);
+a+=b;
+$display("add and assign %0d",a);
+a-=b;
+$display("sub and assign %0d",a);
+a*=b;
+$display("mult and assign %0d",a);
+a/=b;
+$display("div and assign %0d",a);
+a%=b;
+$display("mod and assign %0d",a);
+a|=b;
+$display("bitwise or and assign %0d",a);
+a&=b;
+$display("bitwise and and assign %0d",a);
+a<<=b;
+$display("left shift and assign %b",a);
+a>>=b;
+$display("right shift and assign %b",a);
+a<<<=b;
+$display("left arithmetic shift and assign %b",a);
+a>>>=b;
+$display("Right arithmetic shift and assign %b",a);
+end
+endfunction
+endmodule
+
+////////////////////////////////////////////////////////////////////////////
+                          8.Increment/Decrement Operator's
+///////////////////////////////////////////////////////////////////////////
+module top;
+$display("-------------------------------------------------------------------");
+$display("-------------------Incr/decr Operator's------------------------------");
+initial begin
+	inc_decr(4,5);
+end
+function void inc_decr(logic signed[4:0]a,logic signed[4:0]b);
+a=b;
+b=++a;
+$display("print pre a=%0d and b=%0d",a,b);
+a=b;
+b=--a;
+$display("print pre a=%0d and b=%0d",a,b);
+a=b;
+b=a++;
+$display("print post a=%0d and b=%0d",a,b);
+a=b;
+b=a--;
+$display("print post a=%0d and b=%0d",a,b);
+endfunction
+endmodule
+
+////////////////////////////////////////////////////////////////////////////
+                          9.Concatination Operator's
+///////////////////////////////////////////////////////////////////////////
+
+module top;
+initial begin
+$display("-------------------------------------------------------------------");
+$display("-------------------Concatination Operator's------------------------------");
+conc (5'b11001,5'b11001);
+end
+function void conc(logic signed[4:0]a,logic signed[4:0]b);
+$display("Add all elements %0b ",{a,b});
+$display("Add all elements %0b ",{a,5'b0000000000,b});
+$display("Add all elements %0b ",{a,5'b11xx,b});
+$display("Add all elements %0b ",{a,5'bzzzxxx,b});
+endfunction
+endmodule
+
+
+////////////////////////////////////////////////////////////////////////////
+                          10.conditional Operator's
+///////////////////////////////////////////////////////////////////////////
+module top;
+logic [4:0]result;
+initial begin
+$display("-------------------------------------------------------------------");
+$display("-------------------Conditional Operator's--------------------------");
+	cond(4,5,result);
+end
+function void cond(input logic [4:0]a,input logic [4:0]b,output logic [4:0]result);
+result= (a>b)? a :b;
+$display("print conditional operator=%0d",result);
+endfunction
+endmodule
 
 
 
