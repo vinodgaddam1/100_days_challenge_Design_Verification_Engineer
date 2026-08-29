@@ -239,8 +239,8 @@ module top;
 initial begin
 $display("-------------------------------------------------------------------");
 $display("-------------------Shift Operator's------------------------------");
-shift_operators(5'b11001,5'b00001);//check here only normal sfift's
-arith_operators(-8,2);//check here only normal sfift's
+	shift_operators(5'b11001,5'b00001);//check here only normal shift's
+arith_operators(-8,2);
 end
 function void shift_operators(logic [4:0]a,logic [4:0]b);begin
 $display("Left shift operator=%b",a<<b);
