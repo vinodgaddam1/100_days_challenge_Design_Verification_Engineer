@@ -355,6 +355,158 @@ $display("print conditional operator=%0d",result);
 endfunction
 endmodule
 
+////////////////////////////////////////////////////////////////////////////
+                          11.Replication Operator's
+///////////////////////////////////////////////////////////////////////////
+module top;
+initial begin
+$display("-------------------------------------------------------------------");
+$display("-------------------Replication Operator's--------------------------");
+rep();
+end
+function void rep();
+$display("11001 replicated = %b",{5{5'b11001}});
+$display("xxxzz replicated = %b",{4{5'bxxxzz}});
+$display("1 replicated = %b",{3{5'b1}});
+endfunction
+endmodule
+
+////////////////////////////////////////////////////////////////////////////
+                          12.inside Operator
+///////////////////////////////////////////////////////////////////////////
+module top;
+initial begin
+$display("-------------------------------------------------------------------");
+$display("-------------------Inside Operator's--------------------------");
+type1(10);
+type1(0);
+type2(4);
+type2(400);
+type3(29);
+type3(1000);
+type4(4);
+type5(10,5,10);//obj
+type5(6,5,10);//obj
+type6(10,5,10);//obj
+type6(6,5,10);//obj
+end
+function void type1(input logic [4:0]a);
+	$display("a=%0d",a);
+if(a inside {10,40,2})
+$display("match=%0d",a);
+else 
+$display("not match=%0d",a);
+endfunction
+
+function void type2(input logic [20:0] a);
+	$display("a=%0d",a);
+if(a inside {[20:30],[1:5],[8:9]})
+$display("match=%0d",a);
+else 
+$display("not match=%0d",a);
+endfunction
+
+function void type3(input logic [4:0]a);
+	$display("a=%0d",a);
+if(a inside {10,40,2,[20:30],[40:90]})
+$display("match=%0d",a);
+else 
+$display("not match=%0d",a);
+endfunction
+
+function void type4(input logic [4:0]a);
+case(a)inside
+	[0:9]:
+	$display("Single digit %0d",a);
+	[10:19]:
+	$display("Teen numbers %0d",a);
+	[20:30]:
+	$display("20 t0 30 %0d",a);
+	default:$display("others %0d",a);
+endcase
+endfunction
+function void type5(input logic [4:0]a,input  logic[4:0]x,input logic[4:0]y);
+if(a inside {x,y})//a{{5,10}
+	$display("Match");
+else
+	$display("not Match");
+endfunction
+
+function void type6(input logic [4:0]a,input  logic[4:0]x,input logic[4:0]y);
+if(a inside {[x:y]})//a{[5:10]}
+	$display("Match");
+else
+	$display("not Match");
+endfunction
+endmodule
+
+////////////////////////////////////////////////////////////////////////////
+                          13.Wildcard Operator's
+///////////////////////////////////////////////////////////////////////////
+module top;
+initial begin
+$display("-------------------------------------------------------------------");
+$display("-------------------Wildcard Operator's--------------------------");
+wild(5'b1011);
+inwild(5'b1011);
+$display("-------------------------------------------------------------");
+wild(5'b1111);
+inwild(5'b1111);
+end
+function void wild(input logic [4:0]a);
+if(a==?(5'b10??))
+	$display("Match=%0b",a);
+else 
+
+	$display("not Match=%0b",a);
+
+endfunction
+function void inwild(input logic [4:0]a);
+if(a!=?(4'b10??))
+	$display("Match=%0b",a);
+else 
+
+	$display("not Match=%0b",a);
+
+endfunction
+endmodule
+
+////////////////////////////////////////////////////////////////////////////
+                          14:.Streaming Operator's
+///////////////////////////////////////////////////////////////////////////
+
+module top;
+initial begin
+$display("-------------------------------------------------------------------");
+$display("-------------------Streaming Operator's--------------------------");
+stream(8'b1100_0010);
+$display("-------------------------------------------------------------");
+stream_slice(8'b0010_1111);
+$display("-------------------------------------------------------------");
+stream_mul(8'b1101_1101,8'b0000_1111);
+end
+function void stream(logic[7:0]a);
+$display("stream data left to right=%b",{>>{a}});//no change obj
+$display("stream data right to left=%b",{<<{a}});//bit-reversal
+endfunction
+
+function void stream_slice(logic[7:0]a);
+$display("stream data left to right=%b",{>>2{a}});//obj
+$display("stream data left to right=%b",{>>4{a}});//obj
+$display("stream data left to right=%b",{>>8{a}});//obj
+$display("stream data right to left=%b",{<<2{a}});//group 2 bits
+$display("stream data right to left=%b",{<<4{a}});//group 4-bits
+$display("stream data right to left=%b",{<<8{a}});//group 8-bits
+endfunction
+
+function void stream_mul(logic[7:0]a,logic[7:0]b);
+$display("stream data left to right=%b",{>>{a,b}});
+$display("stream data right to left=%b",{<<{a,b}});//bit-reversal
+$display("stream data left to right=%b",{>>4{a,b}});
+$display("stream data right to left=%b",{<<4{a,b}});
+endfunction
+endmodule
+
 
 
 
