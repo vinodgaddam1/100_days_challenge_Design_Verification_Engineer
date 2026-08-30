@@ -1,4 +1,459 @@
-/**************************************************************************
+==========================================================================
+                     Arrays-In-System-Verilog
+==========================================================================
+                    SYSTEMVERILOG ARRAYS
+                           │
+          ┌────────────────┴────────────────┐
+          │                                 │
+       BASIC                            ADVANCED
+          │                                 │
+    Fixed Array                       Dynamic Array
+          │                                 │
+    Indexing / Size                       Queue
+          │                                 │
+       for loop                    Associative Array
+          │                                 │
+      foreach                    Multidimensional
+          │                                 │
+   Basic Problems                  Array Methods
+          │                                 │
+  ┌───────┴────────┐              Constrained Random
+  │                │                       │
+Search           Count                rand
+  │                │                       │
+Min/Max         Even/Odd             constraint
+  │                │                       │
+Reverse        Divisibility           randomize()
+  │                │                       │
+Sort           Duplicates              unique
+  │                │                       │
+Second Max     Random Arrays          DV/UVM
+
+//fixed-array
+module tb;
+integer array[0:4];
+integer i;
+initial begin
+	array[0]=10;
+	array[1]=20;
+	array[2]=30;
+	array[3]=40;
+	array[4]=50;
+	for(i=0;i<5;i=i+1)begin
+		$display("array[%0d]=%0d",i,array[i]);
+	end
+end
+endmodule
+OUTPUT:
+# array[0]=10
+# array[1]=20
+# array[2]=30
+# array[3]=40
+# array[4]=50
+
+//Declare with value dirctly
+module tb;
+integer array[0:4]='{10,20,30,40,50};
+integer i;
+initial begin
+	for(i=0;i<5;i=i+1)begin
+		$display("array[%0d]=%0d",i,array[i]);
+	end
+end
+endmodule
+OUTPUT:
+# array[0]=10
+# array[1]=20
+# array[2]=30
+# array[3]=40
+# array[4]=50
+1.Single dimensional array
+//array assignment 
+module tb;
+int arr[5]='{10,20,30,40,50};
+integer i;
+initial begin
+foreach(arr[i])begin
+	$display("array[%0d]=%0d",i,arr[i]);
+end
+end
+endmodule
+OUTPUT:
+# array[0]=10
+# array[1]=20
+# array[2]=30
+# array[3]=40
+# array[4]=50
+
+2.Multidimensional array
+//Two-dimensional array
+module tb;
+int arr[6][2]='{'{1,100},'{2,200},'{3,300},'{4,400},'{5,500},'{6,600}};
+integer i,j;
+initial begin
+	for(i=0;i<6;i=i+1)begin
+		for(j=0;j<2;j=j+1)begin
+		$display("array[%0d][%0d]=%0d",i,j,arr[i][j]);
+	end
+end
+end
+endmodule
+OUTPUT:
+# array[0][0]=1
+# array[0][1]=100
+# array[1][0]=2
+# array[1][1]=200
+# array[2][0]=3
+# array[2][1]=300
+# array[3][0]=4
+# array[3][1]=400
+# array[4][0]=5
+# array[4][1]=500
+# array[5][0]=6
+# array[5][1]=600
+
+//Three-dimensional array
+module tb;
+integer arr[3][2][3]='{
+                     '{'{1,10,100},'{2,20,200}},
+                     '{'{3,30,300},'{4,40,400}},
+		     '{'{5,50,500},'{6,60,600}}
+	     };
+integer i,j,k;
+initial begin
+	for(i=0;i<3;i=i+1)begin
+		for(j=0;j<2;j=j+1)begin
+			for(k=0;k<3;k=k+1)begin
+		$display("array[%0d][%0d][%0d]=%0d",i,j,k,arr[i][j][k]);
+	   end
+	end
+end
+end
+endmodule
+OUTPUT:
+# array[0][0][0]=1
+# array[0][0][1]=10
+# array[0][0][2]=100
+# array[0][1][0]=2
+# array[0][1][1]=20
+# array[0][1][2]=200
+# array[1][0][0]=3
+# array[1][0][1]=30
+# array[1][0][2]=300
+# array[1][1][0]=4
+# array[1][1][1]=40
+# array[1][1][2]=400
+# array[2][0][0]=5
+# array[2][0][1]=50
+# array[2][0][2]=500
+# array[2][1][0]=6
+# array[2][1][1]=60
+# array[2][1][2]=600
+
+//four-dimensional array
+int[2][3][4][5]=
+    |  |  |  |
+    |  |  |  |__colume    
+    |  |  |
+    |  |  |___rows
+    |  |
+    |  |_____groups
+    |
+    |
+    |__Block
+    
+
+module tb;
+int arr[2][3][4][5]='{
+	//block
+    '{
+	'{'{1,3,2,4,5},{2,3,4,5,6},{3,4,5,6,2},{1,1,1,1,1}},
+	'{'{1,3,2,4,5},{2,3,4,5,6},{3,4,5,6,2},{1,1,1,1,1}},
+	'{'{1,3,2,4,5},{2,3,4,5,6},{3,4,5,6,2},{1,1,1,1,1}}
+     },
+
+//block2
+    '{
+	'{'{1,3,2,4,5},{2,3,4,5,6},{3,4,5,6,2},{1,1,1,1,1}},
+	'{'{1,3,2,4,5},{2,3,4,5,6},{3,4,5,6,2},{1,1,1,1,1}},
+	'{'{1,3,2,4,5},{2,3,4,5,6},{3,4,5,6,2},{1,1,1,1,1}}
+
+     }
+            };
+integer i,j,k,l;
+initial begin
+	for(i=0;i<2;i=i+1)begin
+		for(j=0;j<3;j=j+1)begin
+			for(k=0;k<4;k=k+1)begin
+				for(l=0;l<5;l=l+1)begin
+					$display("array[%0d][%0d][%0d][%0d]=%0d",i,j,k,l,arr[i][j][k][l]);
+	end
+end
+end
+end
+end
+endmodule
+OUTPUT:
+ array[0][0][0][0]=1
+# array[0][0][0][1]=3
+# array[0][0][0][2]=2
+# array[0][0][0][3]=4
+# array[0][0][0][4]=5
+# array[0][0][1][0]=2
+# array[0][0][1][1]=3
+# array[0][0][1][2]=4
+# array[0][0][1][3]=5
+# array[0][0][1][4]=6
+# array[0][0][2][0]=3
+# array[0][0][2][1]=4
+# array[0][0][2][2]=5
+# array[0][0][2][3]=6
+# array[0][0][2][4]=2
+# array[0][0][3][0]=1
+# array[0][0][3][1]=1
+# array[0][0][3][2]=1
+# array[0][0][3][3]=1
+# array[0][0][3][4]=1
+# array[0][1][0][0]=1
+# array[0][1][0][1]=3
+# array[0][1][0][2]=2
+# array[0][1][0][3]=4
+# array[0][1][0][4]=5
+# array[0][1][1][0]=2
+# array[0][1][1][1]=3
+# array[0][1][1][2]=4
+# array[0][1][1][3]=5
+# array[0][1][1][4]=6
+# array[0][1][2][0]=3
+# array[0][1][2][1]=4
+# array[0][1][2][2]=5
+# array[0][1][2][3]=6
+# array[0][1][2][4]=2
+# array[0][1][3][0]=1
+# array[0][1][3][1]=1
+# array[0][1][3][2]=1
+# array[0][1][3][3]=1
+# array[0][1][3][4]=1
+# array[0][2][0][0]=1
+# array[0][2][0][1]=3
+# array[0][2][0][2]=2
+# array[0][2][0][3]=4
+# array[0][2][0][4]=5
+# array[0][2][1][0]=2
+# array[0][2][1][1]=3
+# array[0][2][1][2]=4
+# array[0][2][1][3]=5
+# array[0][2][1][4]=6
+# array[0][2][2][0]=3
+# array[0][2][2][1]=4
+# array[0][2][2][2]=5
+# array[0][2][2][3]=6
+# array[0][2][2][4]=2
+# array[0][2][3][0]=1
+# array[0][2][3][1]=1
+# array[0][2][3][2]=1
+# array[0][2][3][3]=1
+# array[0][2][3][4]=1
+# array[1][0][0][0]=1
+# array[1][0][0][1]=3
+# array[1][0][0][2]=2
+# array[1][0][0][3]=4
+# array[1][0][0][4]=5
+# array[1][0][1][0]=2
+# array[1][0][1][1]=3
+# array[1][0][1][2]=4
+# array[1][0][1][3]=5
+# array[1][0][1][4]=6
+# array[1][0][2][0]=3
+# array[1][0][2][1]=4
+# array[1][0][2][2]=5
+# array[1][0][2][3]=6
+# array[1][0][2][4]=2
+# array[1][0][3][0]=1
+# array[1][0][3][1]=1
+# array[1][0][3][2]=1
+# array[1][0][3][3]=1
+# array[1][0][3][4]=1
+# array[1][1][0][0]=1
+# array[1][1][0][1]=3
+# array[1][1][0][2]=2
+# array[1][1][0][3]=4
+# array[1][1][0][4]=5
+# array[1][1][1][0]=2
+# array[1][1][1][1]=3
+# array[1][1][1][2]=4
+# array[1][1][1][3]=5
+# array[1][1][1][4]=6
+# array[1][1][2][0]=3
+# array[1][1][2][1]=4
+# array[1][1][2][2]=5
+# array[1][1][2][3]=6
+# array[1][1][2][4]=2
+# array[1][1][3][0]=1
+# array[1][1][3][1]=1
+# array[1][1][3][2]=1
+# array[1][1][3][3]=1
+# array[1][1][3][4]=1
+# array[1][2][0][0]=1
+# array[1][2][0][1]=3
+# array[1][2][0][2]=2
+# array[1][2][0][3]=4
+# array[1][2][0][4]=5
+# array[1][2][1][0]=2
+# array[1][2][1][1]=3
+# array[1][2][1][2]=4
+# array[1][2][1][3]=5
+# array[1][2][1][4]=6
+# array[1][2][2][0]=3
+# array[1][2][2][1]=4
+# array[1][2][2][2]=5
+# array[1][2][2][3]=6
+# array[1][2][2][4]=2
+# array[1][2][3][0]=1
+# array[1][2][3][1]=1
+# array[1][2][3][2]=1
+# array[1][2][3][3]=1
+# array[1][2][3][4]=1
+
+****************************************************************************
+                                Scalar In System Verilog
+****************************************************************************
+1.bit 
+module tb;
+bit a;//2-states
+initial begin
+	a=1;
+	$display("a=%b",a);
+	a=0;
+	$display("a=%b",a);
+end
+endmodule
+OUTPUT:
+# a=1
+# a=0
+
+2.logic 
+module tb;
+logic a;//4-states
+initial begin
+	a=1;
+	$display("a=%b",a);
+	a=0;
+	$display("a=%b",a);
+end
+endmodule
+OUTPUT:
+# a=1
+# a=0
+
+and reming wire & reg
+
+
+****************************************************************************
+                                Vector In System Verilog
+****************************************************************************
+1.bit 
+
+
+module tb;
+bit[9:0] a;//2-states
+initial begin
+	a=1;
+	$display("a=%b",a);
+	a=0;
+	$display("a=%b",a);
+end
+endmodule
+OUTPUT:
+# a=0000000001
+# a=0000000000
+
+2.logic
+
+module tb;
+logic[-1:5] a;//4-states
+initial begin
+	a=1;
+	$display("a=%b",a);
+	a=0;
+	$display("a=%b",a);
+end
+endmodule
+OUTPUT:
+# a=0000001
+# a=0000000
+
+and reming wire & reg
+****************************************************************************
+                       Packed and UnPacked array
+****************************************************************************
+//packed with mutipule
+module tb;
+bit[3:0][5:0]array='{5'd2,5'd4,5'd1,5'd3};
+initial begin
+	foreach(array[i])begin
+		$display("array[%0d]=%0d",i,array[i]);
+	end
+end
+endmodule
+OUTPUT:
+# array[3]=2
+# array[2]=4
+# array[1]=1
+# array[0]=3
+
+
+//Unpaked array
+module tb;
+int array[3:0][2:0]='{'{2,4,5},'{3,5,6},'{3,5,6},{2,4,3}};
+int i,j;
+initial begin
+	for(i=3;i>=0;i=i-1)begin
+		for(j=2;j>=0;j=j-1)begin
+			$display("array[%0d][%0d]=%0d",i,j,array[i][j]);
+		end
+	end
+end
+endmodule
+OUTPUT:
+# array[3][2]=2
+# array[3][1]=4
+# array[3][0]=5
+# array[2][2]=3
+# array[2][1]=5
+# array[2][0]=6
+# array[1][2]=3
+# array[1][1]=5
+# array[1][0]=6
+# array[0][2]=2
+# array[0][1]=4
+# array[0][0]=3
+
+
+//combinational of a packed and unpacked array
+module tb;
+bit [4:0]array[2:0][1:0]='{'{5'd3,5'd4},'{5'd3,5'd2},{5'd3,5'd2}};
+integer i,j;
+initial begin
+	for(i=0;i<2;i=i+1)begin
+		for(j=0;j<3;j=j+1)begin
+			$display("array[%0d][%0d]=%0d",i,j,array[i][j]);
+		end
+	end
+end
+endmodule
+OUTPUT:
+# array[0][0]=2
+# array[0][1]=3
+# array[0][2]=0
+# array[1][0]=2
+# array[1][1]=3
+# array[1][2]=0
+
+
+
+
+**************************************************************************
                             Dynamic Array
 ***************************************************************************
 
@@ -32,7 +487,7 @@ initial begin
 end
 endmodule
 
-/*OUTPUT:
+OUTPUT:
 # array[0]=1
 # array[1]=2
 # array[2]=3
@@ -605,7 +1060,7 @@ $display("or = %0b ",arr2.or());
 $display("xor = %0b ",arr2.xor());
 end
 endmodule
-*/
+
 
 
 
