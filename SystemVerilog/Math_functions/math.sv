@@ -1,7 +1,7 @@
 //=======================================================================
 // Mathematical system function/tasks
 //=======================================================================
-/*
+
 1.log10(value)
 module top;
 int a;
@@ -44,8 +44,10 @@ a=3;
 $display("a=%f",$sqrt(a));
 end
 endmodule
+OUTPUT:
 # a=1.732051
 
+5.$pow(x,y)
 module top;
 int a,b;
 initial begin
@@ -54,10 +56,11 @@ b=2;//power
 $display("power=%0d",$pow(a,b));
 end
 endmodule
+OUTPUT:
 # power=9
 
 
-
+6.floor(value)
 module top;
 int a,b;
 initial begin
@@ -67,10 +70,11 @@ $display("floor=%f",$floor(a));
 $display("floor=%f",$floor(b));
 end
 endmodule
+OUTPUT:
 # floor=3.000000
 # floor=-4.000000
 
-
+7.ceil(value)
 module top;
 int a,b;
 initial begin
@@ -80,11 +84,12 @@ $display("ceil=%f",$ceil(a));
 $display("ceil=%f",$ceil(b));
 end
 endmodule
+OUTPUT:
 # ceil=3.000000
 # ceil=-3.000000
 
 
-
+8.$sin(value),$cos(value),$tan(value),$asin(value),$acos(value),$atan(x,y)
 module top;
 real a, b;
 initial begin
@@ -103,6 +108,7 @@ initial begin
 
 end
 endmodule
+OUTPUT:
 # sin  = 0.141120
 # cos  = -0.210796
 # tan  = -0.142547
@@ -110,7 +116,7 @@ endmodule
 # acos = 1.047198
 # atan = 1.249046
 # atan2 = 0.588003
-*/
+
 
 
 
