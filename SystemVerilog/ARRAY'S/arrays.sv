@@ -1062,6 +1062,128 @@ end
 endmodule
 
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//array Literals
+module top;
+static int arr1[4]={0,1,2,3};
+int arr2[5]={0,1,2,3,4};
+int arr3[0:2]={7,6,5};
+int arr4[4]='{4{8}};
+int arr5[43]={default:42};
+initial begin
+	foreach(arr1[i])begin
+		$display("arr1=%p",arr1);
+	end	
+	$display("----------------------------");
+	foreach(arr2[i])begin
+		$display("arr2=%p",arr2);
+	end	
+	$display("----------------------------");
+	foreach(arr3[i])begin
+		$display("arr3=%p",arr3);
+	end
+	$display("----------------------------");
+	foreach(arr4[i])begin
+		$display("arr4=%p",arr4);
+	end
+	$display("----------------------------");
+	foreach(arr4[i])begin
+		$display("arr5=%p",arr5);
+	end
+end
+endmodule
+
+
+
+//printing with %p specifier
+module top;
+int arr[4]='{0,1,2,3};
+int arr1[4]='{4{3}};
+initial begin
+$display("%p",arr);
+$display("%p",arr1);
+end
+endmodule
+
+
+//For array operation for and foreach
+module top;
+int arr[2][3]='{'{1,2,3},{1,4,4}};
+
+initial begin
+$display("Initial values");
+foreach(arr[i,j])begin
+$display("arr[%0d][%0d]=%0d",i,j,arr[i][j]);	
+end
+$display("New values");
+arr='{'{1,2,3},{5,5,5}};
+foreach(arr[i,j])begin
+$display("arr[%0d][%0d]=%0d",i,j,arr[i][j]);	
+end
+end
+endmodule
+
+
+
+
+
+//Printing multi dimensional array
+module top;
+
+byte arr[4][6];
+initial begin
+	foreach(arr[i,j])
+		arr[i][j]=i*10+j;
+	      foreach(arr[i])begin
+	         $write ("%2d",i);
+                    foreach(arr[,j])
+	              $write ("%3d",arr[i][j]);
+	$display("");
+end
+end
+endmodule
+
+//Note: foreachloop arry rev[6:2] foreach(rev[i]) is equal to for(int i=6;i>
+//=2;i--) 
+module top;
+    //int rev[2:6]; //obj
+    int rev[6:2];
+    initial begin
+        rev[6] = 10;
+        rev[5] = 20;
+        rev[4] = 30;
+        rev[3] = 40;
+        rev[2] = 50;
+        // foreach follows the declared range [6:2]
+        foreach (rev[i]) begin
+            $display("rev[%0d] = %0d", i, rev[i]);
+        end
+    end
+endmodule
+
+*/
+
+
+
+//Note: foreachloop arry f[5]-->[0:4] foreach(f[i]) is equal to for(int i=0;i<=4;i++)
+module top;
+    //int f[5];//obj
+    int f[9];//obj
+    initial begin
+        f[6] = 10;
+        f[5] = 20;
+        f[4] = 30;
+        f[3] = 40;
+        f[2] = 50;
+        // foreach follows the declared range [0:4]
+        foreach (f[i]) begin
+            $display("f[%0d] = %0d", i, f[i]);
+        end
+    end
+endmodule
+
+
+
 
 
 
