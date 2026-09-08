@@ -1183,15 +1183,153 @@ module top;
 endmodule
 
 
+//copy and compare
+module top;
+bit [31:0] arr1[5]='{0,1,2,3,4};
+bit [31:0] arr2[5]='{5,6,7,8,9};
+initial begin
+if(arr1==arr2)$display("arr1==arr2");
+else $display("arr1!=arr2");
+
+//aggregate copy all arr1 values to arr2
+arr2=arr1;
+$display("arr2=%p",arr2);
+//cahnge just one element
+arr1[0]=5;
+$display("arr1=%p",arr2);
+
+//are all values equal (no!)
+$display("arr1%sarr2",(arr1==arr2)?"==":"!=");
+
+//use array slice to compare elements 1-4 (They are equal)
+$display("arr1[1:4]%sarr2[1:4]",(arr1[1:4]==arr2[1:4])?"==":"!=");
+end
+endmodule
 
 
+//Bit and array subscriptsz together  at last 
+module top;
+bit [31:0]arr[5]='{5{5}};
+initial begin
+$displayb(arr[0]);
+$displayb(arr[1]);
+$displayb(arr[2]);
+$displayb(arr[3]);
+$displayb(arr[4]);
+$displayb(arr[0][0]);//expected output 1
+$displayb(arr[1][7:0]);//expected output 0000_0101
+$displayb(arr[0],,,,,arr[0][0],,,,,arr[1][7:0]);// 31-0
+end
+endmodule
+OUTPUT:
+# 00000000000000000000000000000101
+# 00000000000000000000000000000101
+# 00000000000000000000000000000101
+# 00000000000000000000000000000101
+# 00000000000000000000000000000101
+# 1
+# 00000101
+# 00000000000000000000000000000101    1    00000101
+
+//Declartion of packed array 
+module top;
+bit [3:0][7:0]bytes;
+initial  begin
+bytes=32'hcafe_3243;
+$displayh("bytes",,bytes[0]);
+$displayh("bytes",,bytes[1]);
+$displayh("bytes",,bytes[2]);
+$displayh("bytes",,bytes[3]);
+$displayb("bytes",,bytes[3][7]);
+$displayh("bytes",,bytes[3],,bytes[3][7]);
+end
+endmodule
+
+OUTPUT:
+# bytes 43
+# bytes 32
+# bytes fe
+# bytes ca
+# bytes 1
+# bytes ca 1
 
 
+//Declartion for a mixed packed/unpacked array
+module top;
+bit [3:0][7:0]arr[5];//5 locations each one have 4-bytes in each byte have 8-bit of data
+bit [31:0] w=32'h0123_4567;//word
+bit [7:0][3:0]nibble;  //Nibbles 
+initial begin
+arr[0]=w;
+$displayh("arr[0]=",arr[0]);
+arr[0][3]=8'h01;
+$displayh("arr[0][3]=",arr[0][3]);
+arr[0][1][6]=1'b1;
+$displayh("arr[0][1][6]=",arr[0][1][6]);
+arr[2]=32'hacbd_9a9a;
+nibble=arr[2];
+$displayb("nibble=",nibble);
+end
+endmodule
 
 
+//dynamic array for an uncounted list
+module top;
+bit [7:0]mask[];
+initial begin
+	mask = '{
+            8'b0000_0000,
+            8'b0000_0001,
+            8'b0000_0010,
+            8'b0000_0011,
+            8'b0000_0100,
+            8'b0000_0101,
+            8'b0000_0110,
+            8'b0000_0111
+        };
+$display("mask=%p",mask);
+end
+endmodule
 
 
-
+//queue literals and operations
+module top;
+int j=1;
+int q2[$]={3,4};
+int q[$]={0,2,5};
+initial begin
+q={q[0],j,q[1:$]};
+$display("q=%p",q);
+q={q[0:2],q2,q[3:$]};
+$display("q=%p",q);
+q={q[0],q[2:$]};//Delete element #1
+$display("q=%p",q);
+//These opeartions are fast
+q={6,q};
+$display("q=%p",q);
+j=q[$];//pop_back
+$display("j=%p",j);
+j=q[0];//pop_front
+$display("j=%p",j);
+//q=q[0:$-2];//obj
+q=q[0:$-1];
+$display("q=%p",q);
+q=q[1:$];
+$display("q=%p",q);
+q={q,8};
+$display("q=%p",q);
+end
+endmodule
+OUTPUT:
+# q='{0, 1, 2, 5}
+# q='{0, 1, 2, 3, 4, 5}
+# q='{0, 2, 3, 4, 5}
+# q='{6, 0, 2, 3, 4, 5}
+# j=5
+# j=6
+# q='{6, 0, 2, 3, 4}
+# q='{0, 2, 3, 4}
+# q='{0, 2, 3, 4, 8}
 
 
 
