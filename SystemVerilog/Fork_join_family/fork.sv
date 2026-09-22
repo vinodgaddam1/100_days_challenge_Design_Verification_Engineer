@@ -1,7 +1,15 @@
-/*==========================================================================
-*                             Fork Join Family
-* ==========================================================================*/
-
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                 SystemVerilog Fork–Join Family
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+1. fork...join or fork join_all 
+fork
+    process_1;
+    process_2;
+    process_3;
+join
+Meaning
+All processes execute in parallel, and the parent waits until ALL processes finish.
+For Example:
 //fork...joi Parent waits for ALL child processes.
 module top;
 initial begin
@@ -41,6 +49,16 @@ end
 endmodule
 
 
+2. fork...join_any
+fork
+    process_1;
+    process_2;
+    process_3;
+join_any
+Meaning
+The parent waits until ANY ONE process finishes.
+For example:
+
 //fork...join_any Parent waits for ANY ONE child process.
 module top;
 initial begin
@@ -79,9 +97,15 @@ join_any
 end
 endmodule
 
-
-
-
+3. fork...join_none
+fork
+    process_1;
+    process_2;
+    process_3;
+join_none
+Meaning
+The parent does not wait for the child processes.
+For Example:
 //fork...join_none  Parent doesn't wait for the children.
 module top;
 initial begin
@@ -120,8 +144,12 @@ join_none
 end
 endmodule
 
-
-
+4. disable fork
+This is the important one.
+disable fork;
+Meaning
+It terminates currently active forked child processes in the relevant fork context.
+It does not go backward and remove processes that have already completed.
 //fork...join_none with disable fork;//obj
 module top;
 initial begin
@@ -162,8 +190,7 @@ end
 endmodule
 
 
-
-
+Anothere one: //obj Here
 //fork...join_none with disable fork
 module top;
 initial begin
@@ -202,3 +229,5 @@ join_none
   $display("Entry-18",$time); //48+2=50ns
 end
 endmodule
+
+
