@@ -1,8 +1,14 @@
-/*=========================================================================
-*                        MailBox in SystemVerilog
-*==========================================================================
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                                                       SystemVerilog Mailbox >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-//1.Basing on Size
+1. Definition
+A mailbox in SystemVerilog is a communication and synchronization mechanism used to transfer data between concurrent processes.
+Typical use:
+Producer → Mailbox → Consumer
+1.Basing on Size
+Two types one is Bounded and Unbounded
+Bounded means Size Will be fix, and Unbounded means size not fix.
+For Example:
 module top;
 mailbox mbox1=new();//Bounded 
 mailbox mbox2=new(5);//Unbounded
@@ -25,8 +31,10 @@ end
 end
 endmodule
 
-
-//2.basing on type
+2.Basing on type
+Two types one is generic and parameterized.
+Generic means mailbox allow any type of data(ex:int,string,or user define type also), paramerterized means mailbox will allow particular parameter data/type.
+For Example:
 module top;
 mailbox mbox1=new();//Genaric  
 mailbox #(string)mbox2=new(5);//Parameterize and it alclow 5 values
@@ -68,8 +76,13 @@ mbox2.put(str6);//obj this not print
 end
 endmodule
 
-
-//3.Methodes in mailbox
+3.Mailbox Methods (Blocking Nature):
+1. put() Purpose: Add an item to the mailbox.
+2. get()Purpose: Get and remove the first item.
+3. peek()Purpose: Get the first item without removing it.
+4.num()Purpose: Returns the number of items currently stored.
+5.new() is used to create/construct a mailbox object.
+For Example:
 mailbox mbox=new();
 class sample;
 	int value;
@@ -103,10 +116,11 @@ initial begin
 end
 endmodule
 
-
-
-*/
-//4.Methodes in mailbox non-blocking nature
+4.Mailbox Methods (Non_Blocking Nature):
+1. try_put()Purpose: Add an item without waiting.
+2. try_get()Purpose: Get and remove an item without waiting.
+6. try_peek()Purpose: Read the first item without removing it and without waiting.
+For Example:
 mailbox mbox=new();
 class sample;
 	int value;
@@ -139,5 +153,6 @@ initial begin
 	s.run();
 end
 endmodule
+
 
 
