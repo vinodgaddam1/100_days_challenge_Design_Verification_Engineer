@@ -1,7 +1,13 @@
-/*==========================================================================
-*        SystemVerilog built-in bit/state checking system functions
-* ==========================================================================
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  SystemVerilog built-in bit/state checking system functions
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+1. $isunknown()
+Checks whether a vector contains X or Z.
+Syntax
+$isunknown(expression)
+
+For Example:
 //1.$isunknown
 module top;
 logic [3:0]data;
@@ -16,6 +22,13 @@ initial begin
 end
 endmodule
 
+2. $countbits()
+Counts how many bits match the specified values.
+Syntax
+$countbits(expression, bit_value)
+
+
+For Example:
 //2.$countbits()
 module top;
 logic [7:0]data;
@@ -28,8 +41,12 @@ initial begin
 end
 endmodule
 
+3. $countones()
+This is specifically used to count the number of 1 bits.
+Syntax
+$countones(expression)
 
-
+For Example:
 //3.$countones()
 module top;
 logic [7:0]data;
@@ -39,8 +56,12 @@ initial begin
 end
 endmodule
 
+4. $onehot()
+Checks whether exactly ONE bit is 1.
+Syntax
+$onehot(expression)
 
-
+For Example:
 
 //4.onehot();
 module top;
@@ -76,9 +97,13 @@ else
 end
 endmodule
 
-*/
+5. $onehot0()
+This is similar to $onehot(), but it allows zero or one 1.
 
+Syntax
+$onehot0(expression)
 
+For Example:
 //5.onehot0();
 module top;
 logic [3:0]data1;
@@ -112,34 +137,6 @@ else
 
 end
 endmodule
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
