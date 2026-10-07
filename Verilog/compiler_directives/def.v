@@ -1,8 +1,0 @@
-`define WIDTH 8
-
-
-
-
-
-
-
