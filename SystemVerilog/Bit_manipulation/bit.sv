@@ -1,12 +1,6 @@
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-         Bit Manipulation/Conversion in SystemVerilog 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-1. $signed()
-Forces an expression to be treated as signed.
-
-For Example:
-1.$signed();
+/*
+//1.$signed();
 module top;
 logic [7:0]a;
 initial begin
@@ -16,12 +10,11 @@ end
 endmodule
 
 
-2. $unsigned()
-Forces an expression to be treated as unsigned.
 
-For Example:
 
-2.un$signed();
+
+
+//2.un$signed();
 module top;
 logic [7:0]a;
 initial begin
@@ -31,12 +24,7 @@ end
 endmodule
 
 
-3. $bits()
-Returns the number of bits required by an expression/type.
-
-For Example:
-
-3.$bits();
+//3.$bits();
 module top;
 logic [7:0]a;
 initial begin
@@ -45,16 +33,10 @@ end
 endmodule
 
 
-4.$itor() means Integer To Real.
-It converts an integer value into a real (floating-point) value.
-
-Syntax
-$itor(integer_expression)
 
 
-For Example:
 
-4.$itor;
+//4.$itor;
 module top;
 int a;
 real b;
@@ -67,15 +49,11 @@ end
 endmodule
 
 
-5.$rtoi() — Real to Integer
-$rtoi() is a SystemVerilog system function that converts a real value to an integer.
-Syntax
-$rtoi(real_expression)
 
 
-For Example:
 
-5.$rtoi;
+
+//5.$rtoi;
 module top;
 int a;
 real b;
@@ -87,14 +65,15 @@ initial begin
 end
 endmodule
 
-6.$bitstoreal() is a different SystemVerilog system function. It converts a 64-bit bit pattern into a real value.
-$bitstoreal()
-Syntax:
-$bitstoreal(expression)
 
-For Example:
 
-6.$bitstoreal;
+
+
+
+
+
+
+//6.$bitstoreal;
 module top;
 bit [63:0]data;
 real b;
@@ -107,14 +86,20 @@ end
 endmodule
 
 
-7. $realtobits()
-$realtobits() converts a 64-bit real value into its 64-bit IEEE-754 bit representation.
-Syntax
-$realtobits(real_expression)
 
-For Example:
 
-7.$realtobits;
+
+
+
+
+
+
+*/
+
+
+
+
+//7.$realtobits;
 module top;
 bit [63:0]b;
 real data;
@@ -125,7 +110,3 @@ initial begin
 	$display("b=%0h",b);
 end
 endmodule
-
-
-
-
