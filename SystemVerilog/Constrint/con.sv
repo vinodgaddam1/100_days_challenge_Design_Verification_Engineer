@@ -1,5 +1,5 @@
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-           SystemVerilog Constraints — Beginner to Advanced
+SystemVerilog Constraints — Beginner to Advanced
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 SystemVerilog constraints are used to control the values of random variables when generating stimulus for verification. They are mainly used in constrained-random verification and UVM testbenches.
 
