@@ -1,83 +1,111 @@
-// SystemVerilog Error Handling and Simulation Control
-// This file demonstrates error handling mechanisms in SystemVerilog
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+          Error and Simulation Control In SystemVerilog
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-module error_handler (
-    input  logic       clk,
-    input  logic       reset,
-    input  logic [7:0] error_code,
-    output logic       error_detected,
-    output logic [7:0] error_status
-);
+1.$finish in SystemVerilog
+$finish is a simulation control system task used to terminate the simulation normally.
+Syntax
+$finish;
 
-    // Error detection logic
-    always @(posedge clk or negedge reset) begin
-        if (!reset) begin
-            error_detected <= 1'b0;
-            error_status   <= 8'b0;
-        end else begin
-            if (error_code != 8'b0) begin
-                error_detected <= 1'b1;
-                error_status   <= error_code;
-            end else begin
-                error_detected <= 1'b0;
-                error_status   <= 8'b0;
-            end
-        end
-    end
+For Example:
+1.$finish
+module top;
+initial begin
+	$display("Simulation started");
+	#10;
+	$display("Simulation is runnig");
 
-endmodule : error_handler
+	#10;
+	$finish; //At 20 time units, $finish terminates the simulation.
+	$display("This will NOT executed");
 
-// Testbench with error handling
-module error_handler_tb;
+end
+endmodule
 
-    logic       clk;
-    logic       reset;
-    logic [7:0] error_code;
-    logic       error_detected;
-    logic [7:0] error_status;
 
-    // Instantiate the error handler module
-    error_handler eh (
-        .clk            (clk),
-        .reset          (reset),
-        .error_code     (error_code),
-        .error_detected (error_detected),
-        .error_status   (error_status)
-    );
+2.$stop in SystemVerilog
+$stop is a simulation control system task used to suspend/pause the simulation.
+Syntax
+$stop;
 
-    // Clock generation
-    initial begin
-        clk = 0;
-        forever #5 clk = ~clk;
-    end
+For Example:
+2.$stop
+module top;
+initial begin
+	$display("Simulation started");
+	#10;
+	$display("Before stop");
+        $stop;
+	#10;
+	$display("After stop");
 
-    // Test stimulus
-    initial begin
-        // Initialize
-        reset     = 0;
-        error_code = 8'b0;
-        
-        // Reset release
-        #10 reset = 1;
-        
-        // Test case 1: No error
-        #20 error_code = 8'b0;
-        $display("Test 1 - No Error: error_detected = %b, error_status = %h", error_detected, error_status);
-        
-        // Test case 2: Error detected
-        #20 error_code = 8'h05;
-        $display("Test 2 - Error Detected: error_detected = %b, error_status = %h", error_detected, error_status);
-        
-        // Test case 3: Different error code
-        #20 error_code = 8'hFF;
-        $display("Test 3 - Fatal Error: error_detected = %b, error_status = %h", error_detected, error_status);
-        
-        // Test case 4: Clear error
-        #20 error_code = 8'b0;
-        $display("Test 4 - Error Cleared: error_detected = %b, error_status = %h", error_detected, error_status);
-        
-        // End simulation
-        #20 $finish;
-    end
+end
+endmodule
 
-endmodule : error_handler_tb
+3.$fatal in SystemVerilog
+$fatal is a SystemVerilog severity system task used when a critical error occurs. It reports the error and terminates the simulation.
+Syntax
+$fatal;
+
+For Example:
+3.fatal;
+module top;
+logic [3:0]actual;
+logic [3:0]expected;
+initial begin
+actual  = 4'd10;
+expected  = 4'd5;
+$display("Before comparison: actual=%0d expected=%0d",
+         actual, expected);
+	 if(actual !=expected)
+	$fatal(1,"Mismatch: expected=%0d,actual=%0d",expected,actual);
+  $display("Simulation Continues....."); //Obj here 
+end
+endmodule
+
+Noted:You can also provide formatting arguments:
+$fatal(1, "Expected=%0d, Actual=%0d", expected, actual);
+
+
+4.$error — Next SystemVerilog Severity Task
+$error is used to report an error during simulation without immediately terminating the simulation.
+Syntax
+$error("Error message");
+
+For Example:
+$error
+module top;
+logic [3:0]actual;
+logic [3:0]expected;
+initial begin
+actual  = 4'd10;
+expected  = 4'd5;
+$display("Before comparison: actual=%0d expected=%0d",
+         actual, expected);
+	 if(actual !=expected)
+	$error("Mismatch: expected=%0d,actual=%0d",expected,actual);
+  $display("Simulation Continues.....");//obj here
+end
+endmodule
+
+5.$warning in SystemVerilog
+$warning is a SystemVerilog severity system task used to report a condition that is unexpected or suspicious, but not serious enough to stop the simulation.
+Syntax
+$warning("Warning message");
+
+For Example:
+
+module top;
+logic [3:0]actual;
+logic [3:0]expected;
+initial begin
+actual  = 4'd10;
+expected  = 4'd5;
+$display("Before comparison: actual=%0d expected=%0d",
+         actual, expected);
+	 if(actual !=expected)
+	$error("Mismatch: expected=%0d,actual=%0d",expected,actual);
+  $display("Simulation Continues.....");//obj here
+end
+endmodule
+
