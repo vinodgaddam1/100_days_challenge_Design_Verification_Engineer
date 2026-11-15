@@ -44,4 +44,33 @@ $monitoro()                print values in octal ,monitored
 
 NOTE: here  $displayb(“…….”,,,,,,);   “,,”  means space.
 
+------------------------------------------------------------------------------------------------------------------------------------
+Simulation control and Reporting task-Level-2
+
+$finish (treiminates Simluation)
+$stop (suspends the simulation)
+$exit (exits a task and function context according   
+          to the systemverilog calling mechanism )
+$fatal (Report a fatal error and terminates  
+           simulation)
+$error ( Report a error message)
+$warning (Report a warning message)
+
+Time related:
+$time(return the current simulation time integer time values)
+$stime(current simulation time 32-bit unsigned integer)
+$realtime(current simulation time a real valued numbers)
+
+
+Conversion:
+$itor (convert an integer to a real value)
+$rtoi (convert a real to integer by truncating the fractional part)
+$realtobits(returns the 64-bits representation of a real value)
+$bitstoreal(64-bit vector real)
+$shortrealtobits(shortreal 2-bit vector)
+$bitstoshortreal(32-bit vector to shortreal)
+$signed(treats an expression as signed)
+$unsigned (treats an expression as unsigned)
+
+
 
