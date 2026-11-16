@@ -72,5 +72,39 @@ $bitstoshortreal(32-bit vector to shortreal)
 $signed(treats an expression as signed)
 $unsigned (treats an expression as unsigned)
 
+Bit and with Function
+
+$bits (return number of bits in a data type) 
+$clog2 (return the celling of log base 2 of a value)
+$countbits(count bits matching one or more specified values)
+$countones (count bits value is “1”)
+$isunknown (return true if any bit x or z)
+$onehot (exactly one bit is “1” and all other bits 0)
+$onehot0 (return true if zero or one bit is “1” ,without X or Z bits )
+
+Mathematical functions
+
+$In ($in(x) natural log of x)
+$log10 ($log10(x) base-10 log of(x))
+$exp ($exp(x) calculate e^x)
+$sqrt (squre root of x)
+$pow ($pow(x,y) calculate x^y)
+$floor (rounds down to the Grether integer =x)
+$ceil (rounds up to the smallest integer =x)
+$sin (sine of x)
+$cos(cosine of x)
+$tan(tangent of x)
+$asin(invers sine)
+$acos(invers cosine)
+$atan(invers tan)
+
+Randomization
+
+$random (generate a signed 32-bit integer)
+$urandom(generate a unsigned 32-bit integer )
+$urandom_range (start,end) (generated a unsigned 32-bit integer)
+Randomize() (randomize class properties)
+Std:randomize() (randomize specified variables /optionally with inline constraints)
+ 
 
 
