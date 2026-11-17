@@ -105,6 +105,62 @@ $urandom(generate a unsigned 32-bit integer )
 $urandom_range (start,end) (generated a unsigned 32-bit integer)
 Randomize() (randomize class properties)
 Std:randomize() (randomize specified variables /optionally with inline constraints)
+
+File handling task and function
+$fopen (open file reading or writing mode)
+$fclose (close the file after done writing/reading)
+$fdisplay(write formatted o/p  to a file  and appends a newline)
+$fwrite (without newline)
+$strobe (simiar to $strobe ,but sends formatted o/p to a file)
+$fgetc (reads on char from a file and return its value as an integer)
+$fscanf (read formatted data from a file)
+$read (read binary data)
+$feof (check end of the file)
+$sformat (fromate a string into a variable)
+$sformatf (return a formatted string)
  
+Memory initialization /back door access
+$readmemh (load memory values from a hex file)
+$readmemb (load memory values from binary file)
+$writememh (dump memory contents into a hex file)
+$writememb (dump memory contents into binary file)
+
+
+Command Line Argument function
+1.$value$plusargs (Used to retrieve a value passed through the simulator command line and store it in a SystemVerilog variable.)
+Syntax:
+$value$plusargs("format_string", variable);
+
+2.$test$plusargs (Checks whether a particular plusarg is passed from the simulator command line.)
+Syntax:
+$test$plusargs("argument_name");
+
+SystemVerilog Format Specifiers:
+Format Specifier	Meaning	Example
+%d	Decimal	100
+%h/%x	Hexadecimal	64
+%b	Binary	1100100
+%o	Octal	144
+%s	String	"HELLO"
+%c	Character	'A'
+%0d	Decimal without leading zeros	100
+%0h/%0x	Hexadecimal without leading zeros	64
+%0b	Binary without leading zeros	1100100
+%0o	Octal without leading zeros	144
+%e	Scientific notation	1.25e+02
+%f	Floating-point decimal	125.000000
+%g	Automatic %e or %f selection	125
+%t	Simulation time	100 ns
+
+SystemVerilog Format Specifiers:
+Format	Input	Output	Explanation
+%s	"HELLO"	HELLO	Displays complete string
+%3s	"A"	A	Minimum width 3, right-aligned
+%03d	5	005	Minimum width 3, zero-padded
+%03h	10	00a	Minimum width 3, zero-padded hexadecimal
+%-3s	"A"	A 	Minimum width 3, left-aligned
+%.3s	"HELLO"	HEL	Displays maximum 3 characters
+
+
 
 
